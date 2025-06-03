@@ -22,9 +22,11 @@ const TicTacToe = () => {
 
   const toggle = (e, num) => {
     if (lock) return 0;
+    if (data[num] !== "") return; // Prevent overwriting a filled square
     if (count % 2 === 0) {
-      e.target.innerHTML = `<img src=${cross_icon} alt="cross" />`;
+      e.target.innerHTML = `<img src=${cross_icon} alt="cross"/>`;
       data[num] = "X";
+      //template literal strings in js
       setCount(++count);
     } else {
       e.target.innerHTML = `<img src=${circle_icon} alt="circle" />`;
@@ -53,6 +55,10 @@ const TicTacToe = () => {
       won(data[6]);
     } else if (data[0] === data[1] && data[1] === data[2] && data[2] !== "") {
       won(data[2]);
+    } else if (!data.includes("")) {
+      // All squares filled, no winner
+      setLock(true);
+      titleRef.current.innerHTML = "It's a Draw!";
     }
   };
   const won = (winner) => {
